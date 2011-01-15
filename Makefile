@@ -7,8 +7,9 @@ RUNTIME_FLAGS=--debug
 
 SOURCES= generic-codedom.cs generic-codedom-generator.cs
 OTHERFILES= Makefile README
+OUTCOME = Mono.CodeDom.Generic.dll
 
-all: Mono.CodeDom.Generic.dll
+all: $(OUTCOME)
 
 generic-codedom-generator.exe: generic-codedom-generator.cs
 	$(CSCOMPILE) $(CSCOMPILE_FLAGS) generic-codedom-generator.cs
@@ -24,7 +25,7 @@ clean:
 
 dist:
 	mkdir $(DISTNAME)
-	cp $(SOURCES) $(OTHERFILES) $(DISTNAME)
+	cp $(OUTCOME) $(SOURCES) $(OTHERFILES) $(DISTNAME)
 	tar jcf $(DISTNAME).tar.bz2 $(DISTNAME)
 
 cleanup-dist:
