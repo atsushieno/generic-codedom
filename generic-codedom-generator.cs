@@ -160,7 +160,7 @@ namespace Mono.CodeDom.Generic
 			var csw = new StringWriter ();
 			foreach (var ctor in type.GetConstructors ()) {
 				string parDefs = String.Join (", ", (from p in ctor.GetParameters () select Format (p)).ToArray ());
-				string pars = String.Join (", ", (from p in ctor.GetParameters () select p.ParameterType.Namespace == "System.CodeDom" && !p.ParameterType.IsEnum ? "(Old" + p.ParameterType.Name + ") " + p.Name : p.Name).ToArray ());
+				string pars = String.Join (", ", (from p in ctor.GetParameters () select GetValueExpression (p)).ToArray ());
 				csw.WriteLine (templateCtor, type.Name, parDefs, pars);
 			}
 
@@ -192,6 +192,18 @@ namespace Mono.CodeDom.Generic
 			output.WriteLine (template, type.Name, type.BaseType.Name, csw, isw, dpsw, nsw);
 		}
 
+		string GetValueExpression (ParameterInfo p)
+		{
+			if (p.ParameterType.Namespace == "System.CodeDom" && !p.ParameterType.IsEnum) {
+				if (p.ParameterType.IsArray)
+					return String.Format ("(from x in {0} select (Old{1}) x).ToArray ()", p.Name, p.ParameterType.Name.Substring (0, p.ParameterType.Name.LastIndexOf ('[')));
+				else
+					return "(Old" + p.ParameterType.Name + ") " + p.Name;
+			}
+			else
+				return p.Name;
+		}
+
 		string GetModifier (PropertyInfo p)
 		{
 			var m = p.GetGetMethod ();
@@ -204,7 +216,7 @@ namespace Mono.CodeDom.Generic
 
 		string Format (ParameterInfo p)
 		{
-			return String.Format ("{0}{1} {2}", p.GetCustomAttribute<ParamArrayAttribute> () != null ? "params " : null, p.ParameterType, p.Name);
+			return String.Format ("{0}{1} {2}", p.GetCustomAttribute<ParamArrayAttribute> () != null ? "params " : null, p.ParameterType.Name, p.Name);
 		}
 	}
 
