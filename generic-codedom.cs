@@ -63,6 +63,12 @@ namespace Mono.CodeDom.Generic
 			old.RemoveAt (index);
 		}
 
+		protected override void SetItem (int index, TNew item)
+		{
+			base.SetItem (index, item);
+			((IList) old) [index] = ToOld (item);
+		}
+
 		internal abstract TOld ToOld (TNew item);
 	}
 
@@ -108,6 +114,12 @@ namespace Mono.CodeDom.Generic
 		{
 			base.RemoveItem (index);
 			((IList) old).RemoveAt (index);
+		}
+
+		protected override void SetItem (int index, CodeNamespaceImport item)
+		{
+			base.SetItem (index, item);
+			((IList) old) [index] = (OldCodeNamespaceImport) item;
 		}
 	}
 }
