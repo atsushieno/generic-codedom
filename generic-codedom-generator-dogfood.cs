@@ -6,7 +6,11 @@
 //
 
 using System;
-//using System.CodeDom;
+#if USE_OLD
+using System.CodeDom;
+#else
+using Mono.CodeDom.Generic;
+#endif
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -14,7 +18,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml;
-using Mono.CodeDom.Generic;
 using Microsoft.CSharp;
 
 using MemberAttributes = System.CodeDom.MemberAttributes;

@@ -1,4 +1,4 @@
-VERSION=0.1
+VERSION=0.1.1
 DISTNAME=generic-codedom-$(VERSION)
 CSCOMPILE=mcs
 CSCOMPILE_FLAGS=-debug
@@ -29,3 +29,10 @@ dist:
 cleanup-dist:
 	rm -rf $(DISTNAME).tar.bz2 $(DISTNAME)
 
+
+dogfood: generic-codedom-generator-dogfood.cs
+	mcs -debug -r:Mono.CodeDom.Generic.dll generic-codedom-generator-dogfood.cs
+	mono generic-codedom-generator-dogfood.exe
+
+clean-dogfood:
+	rm generic-codedom-generator-dogfood.exe generic-codedom-generator-dogfood.exe.mdb generic-codedom.generated.dogfood.cs
