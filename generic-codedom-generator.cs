@@ -115,7 +115,7 @@ namespace Mono.CodeDom.Generic
 {2}
 
 		// old-to-new constructor
-		internal {0} (Old{0} old)
+		internal {0} (Old{0} old) {6}
 		{{
 			this.old = old;
 			Initialize ();
@@ -152,9 +152,8 @@ namespace Mono.CodeDom.Generic
 
 			string templateCtor = @"
 		public {0} ({1})
+			: this (new Old{0} ({2}))
 		{{
-			old = new Old{0} ({2});
-			Initialize ();
 		}}";
 
 			var csw = new StringWriter ();
@@ -189,7 +188,7 @@ namespace Mono.CodeDom.Generic
 			}
 
 			// FIXME: write custom attributes
-			output.WriteLine (template, type.Name, type.BaseType.Name, csw, isw, dpsw, nsw);
+			output.WriteLine (template, type.Name, type.BaseType.Name, csw, isw, dpsw, nsw, type.BaseType.Namespace == "System.CodeDom" ? " : base (old)" : null);
 		}
 
 		string GetValueExpression (ParameterInfo p)

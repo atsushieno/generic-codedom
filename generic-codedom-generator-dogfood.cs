@@ -24,7 +24,7 @@ using MemberAttributes = System.CodeDom.MemberAttributes;
 using OldCodeCompileUnit = System.CodeDom.CodeCompileUnit;
 using OldCodeNamespaceImportCollection = System.CodeDom.CodeNamespaceImportCollection;
 
-namespace Mono.CodeDom.Generic
+namespace Mono.CodeDom.Generator
 {
 	public class Driver
 	{
@@ -141,9 +141,9 @@ namespace Mono.CodeDom.Generic
 
 			string templateCtor = @"
 		public {0} ({1})
+		public {0} ({1})
+			: this (new Old{0} ({2}))
 		{{
-			old = new Old{0} ({2});
-			Initialize ();
 		}}";
 
 			foreach (var ctor in type.GetConstructors ()) {
@@ -164,7 +164,7 @@ namespace Mono.CodeDom.Generic
 {2}
 
 		// old-to-new constructor
-		internal {0} (Old{0} old)
+		internal {0} (Old{0} old) {6}
 		{{
 			this.old = old;
 			Initialize ();

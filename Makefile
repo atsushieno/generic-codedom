@@ -32,7 +32,7 @@ cleanup-dist:
 
 dogfood: generic-codedom-generator-dogfood.cs
 	mcs -debug -r:Mono.CodeDom.Generic.dll generic-codedom-generator-dogfood.cs
-	mono generic-codedom-generator-dogfood.exe
+	mono --debug generic-codedom-generator-dogfood.exe
 
 clean-dogfood:
 	rm generic-codedom-generator-dogfood.exe generic-codedom-generator-dogfood.exe.mdb generic-codedom.generated.dogfood.cs
