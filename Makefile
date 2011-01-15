@@ -1,4 +1,4 @@
-VERSION=0.1.1
+VERSION=0.1.2
 DISTNAME=generic-codedom-$(VERSION)
 CSCOMPILE=mcs
 CSCOMPILE_FLAGS=-debug
@@ -6,6 +6,7 @@ RUNTIME=mono
 RUNTIME_FLAGS=--debug
 
 SOURCES= generic-codedom.cs generic-codedom-generator.cs
+OTHERFILES= Makefile README
 
 all: Mono.CodeDom.Generic.dll
 
@@ -23,7 +24,7 @@ clean:
 
 dist:
 	mkdir $(DISTNAME)
-	cp $(SOURCES) $(DISTNAME)
+	cp $(SOURCES) $(OTHERFILES) $(DISTNAME)
 	tar jcf $(DISTNAME).tar.bz2 $(DISTNAME)
 
 cleanup-dist:
